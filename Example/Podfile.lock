@@ -1,0 +1,16 @@
+PODS:
+  - Adaptable (0.1.0)
+
+DEPENDENCIES:
+  - Adaptable (from `../`)
+
+EXTERNAL SOURCES:
+  Adaptable:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  Adaptable: 06193c0a214719e2959c62767cb0e8cb4e0b257b
+
+PODFILE CHECKSUM: 7534104e60f0491aa70e0ea29d6b7f5b616b0d67
+
+COCOAPODS: 1.8.4

@@ -1,0 +1,6 @@
+framework module Adaptable {
+  umbrella header "Adaptable-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "Adaptable",
+  "version": "0.1.0",
+  "summary": "A short description of Adaptable.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/Anton Ukhankin/Adaptable",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Anton Ukhankin": "idpuzzle1@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/Anton Ukhankin/Adaptable.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "Adaptable/Classes/**/*"
+}
