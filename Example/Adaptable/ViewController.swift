@@ -11,31 +11,35 @@ import Adaptable
 
 class TextTableViewCell: UITableViewCell, Adaptable {
     typealias Model = String
-    typealias Configuration = [NSAttributedString.Key: Any]
+    typealias Configuration = [NSAttributedString.Key: Any]?
     
-    func adapt(model: Model, meta: Configuration?) {
-        self.textLabel?.attributedText = type(of: self).attributedString(model: model, meta: meta)
+    func adapt(model: Model, configuration: Configuration) {
+        self.textLabel?.attributedText = type(of: self).attributedString(model: model, configuration: configuration)
     }
     
-    private class func attributedString(model: Model, meta: Configuration?) -> NSAttributedString? {
-        return NSAttributedString(string: model, attributes: meta)
+    private class func attributedString(model: Model, configuration: Configuration) -> NSAttributedString? {
+        return NSAttributedString(string: model, attributes: configuration)
     }
 }
 
 class TableDataSource: NSObject {
-    typealias TitleTableAdapter = TableViewCellAdapter<String, [NSAttributedString.Key: Any], TextTableViewCell>
+    typealias TitleTableAdapter = TableViewCellAdapter<String, [NSAttributedString.Key: Any]?, TextTableViewCell>
     
     let tableView: UITableView
-    var adapters: [UITableViewCellReusable]
+    var reusingCellItems: [UITableViewCellReusable]
     
     init(tableView: UITableView) {
         self.tableView = tableView
                         
-        self.adapters = ["first", "second"].compactMap { item -> UITableViewCellReusable? in
+        self.reusingCellItems = ["first", "second"].compactMap { item in
             let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 20, weight: .heavy), .foregroundColor: UIColor.gray]
-            return TitleTableAdapter(model: item, meta: attributes)
+            return TitleTableAdapter(model: item, configuration: attributes)
         }
         super.init()
+        
+        self.reusingCellItems.forEach {
+            tableView.register(reusable: $0)
+        }
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -49,14 +53,12 @@ extension TableDataSource: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return adapters.count
+        return reusingCellItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let adapter = self.adapters[indexPath.row]
-        let cell = tableView.dequeueReusableCell(reusable: adapter, indexPath: indexPath)
-        adapter.reuse(cell: cell)
-        return cell
+        let reusableItem = self.reusingCellItems[indexPath.row]
+        return tableView.dequeueReusableCell(reusable: reusableItem, indexPath: indexPath)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -10,19 +10,19 @@ public protocol Adaptable {
     associatedtype Model
     associatedtype Configuration
     
-    func adapt(model: Model, meta: Configuration?)
+    func adapt(model: Model, configuration: Configuration)
 }
 
 open class ViewAdapter<Model, Configuration, View> where View: Adaptable, View.Model == Model, View.Configuration == Configuration {
     public let model: Model
-    public let configuration: Configuration?
+    public let configuration: Configuration
     
-    public init(model: Model, meta: Configuration? = nil) {
+    public init(model: Model, configuration: Configuration) {
         self.model = model
-        self.configuration = meta
+        self.configuration = configuration
     }
     
     public func adapt(view: View) {
-        view.adapt(model: model, meta: configuration)
+        view.adapt(model: model, configuration: configuration)
     }
 }
