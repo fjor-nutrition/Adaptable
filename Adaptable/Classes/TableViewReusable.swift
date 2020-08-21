@@ -20,7 +20,7 @@ public protocol UITableViewCellReusable {
     func reuse(cell: UITableViewCell)
 }
 
-open class TableViewCellAdapter<Model, Meta, Cell: UITableViewCell>: ViewAdapter<Model, Meta, Cell>, UITableViewCellReusable where Cell: Adaptable, Cell.Model == Model, Cell.Meta == Meta {
+open class TableViewCellAdapter<Model, Configuration, Cell: UITableViewCell>: ViewAdapter<Model, Configuration, Cell>, UITableViewCellReusable where Cell: Adaptable, Cell.Model == Model, Cell.Configuration == Configuration {
     public let id: String = String(describing: Model.self)
     
     public func register(in tableView: UITableView) {

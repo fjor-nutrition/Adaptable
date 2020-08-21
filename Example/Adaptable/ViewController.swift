@@ -11,13 +11,13 @@ import Adaptable
 
 class TextTableViewCell: UITableViewCell, Adaptable {
     typealias Model = String
-    typealias Meta = [NSAttributedString.Key: Any]
+    typealias Configuration = [NSAttributedString.Key: Any]
     
-    func adapt(model: Model, meta: Meta?) {
+    func adapt(model: Model, meta: Configuration?) {
         self.textLabel?.attributedText = type(of: self).attributedString(model: model, meta: meta)
     }
     
-    private class func attributedString(model: Model, meta: Meta?) -> NSAttributedString? {
+    private class func attributedString(model: Model, meta: Configuration?) -> NSAttributedString? {
         return NSAttributedString(string: model, attributes: meta)
     }
 }
