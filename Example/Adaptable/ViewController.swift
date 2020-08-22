@@ -9,9 +9,10 @@
 import UIKit
 import Adaptable
 
-class TextTableViewCell: UITableViewCell, Adaptable {
+class TextTableViewCell: UITableViewCell, Adaptable, CollectionRegistrable {
     typealias Model = String
     typealias Configuration = [NSAttributedString.Key: Any]?
+    static let registrator: Registrator = .anyClass(TextTableViewCell.self)
     
     func adapt(model: Model, configuration: Configuration) {
         self.textLabel?.attributedText = type(of: self).attributedString(model: model, configuration: configuration)
@@ -30,15 +31,16 @@ class TableDataSource: NSObject {
     
     init(tableView: UITableView) {
         self.tableView = tableView
-                        
-        self.reusingCellItems = ["first", "second"].compactMap { item in
+                       
+        let titleItems: [TitleTableAdapter] = ["first", "second"].compactMap { item in
             let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 20, weight: .heavy), .foregroundColor: UIColor.gray]
             return TitleTableAdapter(model: item, configuration: attributes)
         }
+        self.reusingCellItems = titleItems
         super.init()
         
-        self.reusingCellItems.forEach {
-            tableView.register(reusable: $0)
+        titleItems.forEach {
+            $0.register(in: tableView)
         }
         
         tableView.dataSource = self
