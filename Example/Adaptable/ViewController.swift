@@ -22,8 +22,19 @@ class TextTableViewCell: UITableViewCell, Adaptable, ClassRegistrable {
     }
 }
 
+class ImageTableViewCell: UITableViewCell, Adaptable, ClassRegistrable {
+    typealias Model = UIImage
+    typealias Configuration = UIColor
+    
+    func adapt(model: Model, configuration: Configuration) {
+        self.imageView?.tintColor = configuration
+        self.imageView?.image = model
+    }
+}
+
 class TableDataSource: NSObject {
-    typealias TitleTableAdapter = TableViewCellAdapter<String, [NSAttributedString.Key: Any]?, TextTableViewCell>
+    typealias TitleTableAdapter = TableViewCellAdapter<TextTableViewCell>
+    typealias ImageTableAdapter = TableViewCellAdapter<ImageTableViewCell>
     
     let tableView: UITableView
     var reusingCellItems: [UITableViewCellReusable]
@@ -35,12 +46,21 @@ class TableDataSource: NSObject {
             let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 20, weight: .heavy), .foregroundColor: UIColor.gray]
             return TitleTableAdapter(model: item, configuration: attributes)
         }
-        self.reusingCellItems = titleItems
-        super.init()
-        
         titleItems.forEach {
             $0.register(in: tableView)
         }
+        
+        if #available(iOS 13.0, *) {
+            let imageItems: [ImageTableAdapter] = [UIImage.actions, UIImage.add, UIImage.remove, UIImage.checkmark].compactMap { item in
+                let adapter = ImageTableAdapter(model: item, configuration: .cyan)
+                adapter.register(in: tableView)
+                return adapter
+            }
+            self.reusingCellItems = titleItems + imageItems
+        } else {
+            self.reusingCellItems = titleItems
+        }
+        super.init()
         
         tableView.dataSource = self
         tableView.delegate = self

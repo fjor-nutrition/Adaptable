@@ -7,7 +7,10 @@
 
 import UIKit
 
-open class CollectionViewCellAdapter<Model, Configuration, Cell: UICollectionViewCell>: ViewAdapter<Model, Configuration, Cell> where Cell: Adaptable, Cell.Model == Model, Cell.Configuration == Configuration { }
+open class CollectionViewCellAdapter<Cell: UICollectionViewCell>: ViewAdapter<Cell.Model, Cell.Configuration, Cell> where Cell: Adaptable {
+    typealias Model = Cell.Model
+    typealias Configuration = Cell.Configuration
+}
 
 extension CollectionViewCellAdapter: UICollectionViewCellReusable {
     public var reuseIdentifier: String {

@@ -8,7 +8,9 @@
 
 import UIKit
 
-open class TableViewCellAdapter<Model, Configuration, Cell: UITableViewCell>: ViewAdapter<Model, Configuration, Cell> where Cell: Adaptable, Cell.Model == Model, Cell.Configuration == Configuration {
+open class TableViewCellAdapter<Cell: UITableViewCell>: ViewAdapter<Cell.Model, Cell.Configuration, Cell> where Cell: Adaptable {
+    typealias Model = Cell.Model
+    typealias Configuration = Cell.Configuration
 }
 
 extension TableViewCellAdapter: UITableViewCellReusable {
