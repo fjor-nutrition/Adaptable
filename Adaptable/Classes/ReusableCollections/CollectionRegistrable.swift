@@ -16,7 +16,27 @@ public protocol CollectionRegistrable {
     static var registrator: Registrator { get }
 }
 
-protocol CollectionRegistator {
+public protocol ClassRegistrable: CollectionRegistrable {}
+extension ClassRegistrable where Self: UITableViewCell {
+    public static var registrator: Registrator { .anyClass(self) }
+}
+
+extension ClassRegistrable where Self: UICollectionViewCell {
+    public static var registrator: Registrator { .anyClass(self) }
+}
+
+public protocol NibRegistrable: CollectionRegistrable {
+    static var nib: UINib { get }
+}
+extension NibRegistrable where Self: UITableViewCell {
+    public static var registrator: Registrator { .nib(self.nib) }
+}
+extension NibRegistrable where Self: UICollectionViewCell {
+    public static var registrator: Registrator { .nib(self.nib) }
+}
+
+
+public protocol CollectionRegistator {
     func register(_ registrable: CollectionRegistrable.Type, id: String)
 }
 

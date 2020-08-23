@@ -9,10 +9,9 @@
 import UIKit
 import Adaptable
 
-class TextTableViewCell: UITableViewCell, Adaptable, CollectionRegistrable {
+class TextTableViewCell: UITableViewCell, Adaptable, ClassRegistrable {
     typealias Model = String
     typealias Configuration = [NSAttributedString.Key: Any]?
-    static let registrator: Registrator = .anyClass(TextTableViewCell.self)
     
     func adapt(model: Model, configuration: Configuration) {
         self.textLabel?.attributedText = type(of: self).attributedString(model: model, configuration: configuration)
