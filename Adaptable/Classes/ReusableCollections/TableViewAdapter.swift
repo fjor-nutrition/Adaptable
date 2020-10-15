@@ -15,7 +15,7 @@ open class TableViewCellAdapter<Cell: UITableViewCell>: ViewAdapter<Cell.Model, 
 
 extension TableViewCellAdapter: UITableViewCellReusable {
     public var reuseIdentifier: String {
-        return String(describing: Model.self)
+        return String(describing: Cell.self) + " - " + String(describing: Model.self)
     }
         
     public func reuse(cell: UITableViewCell) {

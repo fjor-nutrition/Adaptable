@@ -14,7 +14,7 @@ open class CollectionViewCellAdapter<Cell: UICollectionViewCell>: ViewAdapter<Ce
 
 extension CollectionViewCellAdapter: UICollectionViewCellReusable {
     public var reuseIdentifier: String {
-        return String(describing: Model.self)
+        return String(describing: Cell.self) + " - " + String(describing: Model.self)
     }
     
     public func reuse(cell: UICollectionViewCell) {
