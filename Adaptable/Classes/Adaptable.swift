@@ -10,7 +10,12 @@ public protocol Adaptable {
     associatedtype Model
     associatedtype Configuration
     
+    func reset()
     func adapt(model: Model, configuration: Configuration)
+}
+
+public extension Adaptable {
+    func reset() {}
 }
 
 open class ViewAdapter<Model, Configuration, View> where View: Adaptable, View.Model == Model, View.Configuration == Configuration {
@@ -20,6 +25,10 @@ open class ViewAdapter<Model, Configuration, View> where View: Adaptable, View.M
     public init(model: Model, configuration: Configuration) {
         self.model = model
         self.configuration = configuration
+    }
+    
+    public func reset(view: View) {
+        view.reset()
     }
     
     public func adapt(view: View) {

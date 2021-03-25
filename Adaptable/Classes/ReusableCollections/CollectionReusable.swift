@@ -33,6 +33,8 @@ public protocol UICollectionViewCellReusable: CollectionReusable {
 
 public extension UICollectionView {
     func dequeueReusableCell(reusable: UICollectionViewCellReusable, indexPath: IndexPath) -> UICollectionViewCell {
-        return self.dequeueReusableCell(withReuseIdentifier: reusable.reuseIdentifier, for: indexPath)
+        let cell = self.dequeueReusableCell(withReuseIdentifier: reusable.reuseIdentifier, for: indexPath)
+        reusable.reuse(cell: cell)
+        return cell
     }
 }
