@@ -31,10 +31,21 @@ public protocol UICollectionViewCellReusable: CollectionReusable {
     func reuse(cell: UICollectionViewCell)
 }
 
+public protocol UICollectionViewSupplementaryReusable: CollectionReusable {
+    var elementKind: String { get }
+    func reuse(supplementary: UICollectionReusableView)
+}
+
 public extension UICollectionView {
     func dequeueReusableCell(reusable: UICollectionViewCellReusable, indexPath: IndexPath) -> UICollectionViewCell {
         let cell = self.dequeueReusableCell(withReuseIdentifier: reusable.reuseIdentifier, for: indexPath)
         reusable.reuse(cell: cell)
         return cell
+    }
+    
+    func dequeueSupplementary(reusable: UICollectionViewSupplementaryReusable, for indexPath: IndexPath) -> UICollectionReusableView {
+        let reusableView = self.dequeueReusableSupplementaryView(ofKind: reusable.elementKind, withReuseIdentifier: reusable.reuseIdentifier, for: indexPath)
+        reusable.reuse(supplementary: reusableView)
+        return reusableView
     }
 }
