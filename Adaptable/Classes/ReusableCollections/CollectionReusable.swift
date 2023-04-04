@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 public protocol CollectionReusable {
     var reuseIdentifier: String { get }

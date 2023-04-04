@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 public enum Registrator {
     case nib(_ nib: UINib)
